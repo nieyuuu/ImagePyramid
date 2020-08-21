@@ -11,7 +11,7 @@ bool CDualBlur::__needRecreateTextureChain(int vInputTextureWidth, int vInputTex
 	return false;
 }
 
-void CDualBlur::__recreateTextureChain(int vInputTextureWidth, int vInputTextureHeight, int vDownSampleIteration)
+void CDualBlur::__recreateTextureChain(int vInputTextureWidth, int vInputTextureHeight, const ImageFormat* vFormat, int vDownSampleIteration)
 {
 	m_DownSampleChain.resize(vDownSampleIteration + 1);
 	m_UpSampleChain.resize(vDownSampleIteration + 1);
@@ -23,7 +23,7 @@ void CDualBlur::__recreateTextureChain(int vInputTextureWidth, int vInputTexture
 		w = max(w / 2, 1);
 		h = max(h / 2, 1);
 
-		m_DownSampleChain[i] = Texture::createEmpty(("DualBlur::DownSampleChain" + std::to_string(i)).c_str(), w, h, ImageFormat::RGB32F());
+		m_DownSampleChain[i] = Texture::createEmpty(("DualBlur::DownSampleChain" + std::to_string(i)).c_str(), w, h, vFormat);
 	}
 
 	w = vInputTextureWidth;
@@ -31,7 +31,7 @@ void CDualBlur::__recreateTextureChain(int vInputTextureWidth, int vInputTexture
 	for (int i = 0; i < vDownSampleIteration; ++i)
 	{
 		std::string Name = i == 0 ? "DualBlur::BlurResult" : "DualBlur::UpSampleChain" + std::to_string(i);
-		m_UpSampleChain[i] = Texture::createEmpty((Name).c_str(), w, h, ImageFormat::RGB32F());
+		m_UpSampleChain[i] = Texture::createEmpty((Name).c_str(), w, h, vFormat);
 		w = max(w / 2, 1);
 		h = max(h / 2, 1);
 	}
@@ -44,7 +44,7 @@ shared_ptr<Texture> CDualBlur::Blur(RenderDevice* vRenderDevice, shared_ptr<Text
 
 	if (__needRecreateTextureChain(vInputTexture->width(), vInputTexture->height(), vDownSampleIteration))
 	{
-		__recreateTextureChain(vInputTexture->width(), vInputTexture->height(), vDownSampleIteration);
+		__recreateTextureChain(vInputTexture->width(), vInputTexture->height(), vInputTexture->format(), vDownSampleIteration);
 	}
 
 	m_DownSampleChain[0] = vInputTexture;
@@ -56,8 +56,10 @@ shared_ptr<Texture> CDualBlur::Blur(RenderDevice* vRenderDevice, shared_ptr<Text
 	{
 		m_pDownSampleFramebuffer->set(Framebuffer::COLOR0, m_DownSampleChain[i]);
 		Point2int16 TargetSize = Point2int16(m_pDownSampleFramebuffer->width(), m_pDownSampleFramebuffer->height());
+
 		vRenderDevice->push2D(m_pDownSampleFramebuffer); {
 			vRenderDevice->setColorClearValue(Color4(0.0f, 0.0f, 0.0f, 0.0f));
+
 			Args args;
 			args.setRect(Rect2D(Point2(0, 0), Point2(TargetSize.x, TargetSize.y)));
 			args.setUniform("DownSampleTargetSize", TargetSize);
@@ -72,8 +74,10 @@ shared_ptr<Texture> CDualBlur::Blur(RenderDevice* vRenderDevice, shared_ptr<Text
 	{
 		m_pUpSampleFramebuffer->set(Framebuffer::COLOR0, m_UpSampleChain[i]);
 		Point2int16 TargetSize = Point2int16(m_pUpSampleFramebuffer->width(), m_pUpSampleFramebuffer->height());
+
 		vRenderDevice->push2D(m_pUpSampleFramebuffer); {
 			vRenderDevice->setColorClearValue(Color4(0.0f, 0.0f, 0.0f, 0.0f));
+
 			Args args;
 			args.setRect(Rect2D(Point2(0, 0), Point2(TargetSize.x, TargetSize.y)));
 			args.setUniform("UpSampleTargetSize", TargetSize);

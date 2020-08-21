@@ -19,7 +19,6 @@ int main(int argc, const char* argv[])
 	settings.window.defaultIconFilename = "icon.png";
 	settings.window.asynchronous = true;
 
-	settings.hdrFramebuffer.setGuardBandsAndSampleRate(64, 0, 1.0f);
 	settings.hdrFramebuffer.depthGuardBandThickness = Vector2int16(0, 0);
 	settings.hdrFramebuffer.colorGuardBandThickness = Vector2int16(0, 0);
 

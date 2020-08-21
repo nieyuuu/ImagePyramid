@@ -12,7 +12,7 @@ private:
 	Array<shared_ptr<Texture>> m_UpSampleChain;
 
 	bool __needRecreateTextureChain(int vInputTextureWidth, int vInputTextureHeight, int vDownSampleIteration) const;
-	void __recreateTextureChain(int vInputTextureWidth, int vInputTextureHeight, int vDownSampleIteration);
+	void __recreateTextureChain(int vInputTextureWidth, int vInputTextureHeight, const ImageFormat* vFormat, int vDownSampleIteration);
 
 public:
 	static shared_ptr<CDualBlur> create()
