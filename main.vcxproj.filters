@@ -7,12 +7,18 @@
     <ClCompile Include="source\BlurRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\DualBlur.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\App.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\BlurRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\DualBlur.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -36,5 +42,13 @@
       <UniqueIdentifier>{f7819c7b-69f2-4778-bec8-4dbee2bfa711}</UniqueIdentifier>
       <Extensions>*.any</Extensions>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data-files\shaders\DualBlurDownSample.pix">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="data-files\shaders\DualBlurUpSample.pix">
+      <Filter>Shader Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

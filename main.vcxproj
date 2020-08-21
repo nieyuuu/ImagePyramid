@@ -92,13 +92,19 @@
   <ItemGroup>
     <ClInclude Include="source\App.h" />
     <ClInclude Include="source\BlurRenderer.h" />
+    <ClInclude Include="source\DualBlur.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\App.cpp" />
     <ClCompile Include="source\BlurRenderer.cpp" />
+    <ClCompile Include="source\DualBlur.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data-files\shaders\DualBlurDownSample.pix" />
+    <None Include="data-files\shaders\DualBlurUpSample.pix" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,9 +1,12 @@
 #pragma once
 #include <G3D/G3D.h>
 
+class CDualBlur;
+
 class CBlurRenderer :public DefaultRenderer
 {
 private:
+	shared_ptr<CDualBlur> m_pDualBlur;
 
 public:
 	static shared_ptr<CBlurRenderer> create()
@@ -12,7 +15,7 @@ public:
 	}
 
 protected:
-	CBlurRenderer() {}
+	CBlurRenderer();
 
 	virtual void render(
 		RenderDevice*					  vRenderDevice,
