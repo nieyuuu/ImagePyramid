@@ -49,6 +49,9 @@ shared_ptr<Texture> CDualBlur::Blur(RenderDevice* vRenderDevice, shared_ptr<Text
 
 	m_DownSampleChain[0] = vInputTexture;
 
+	Sampler s = Sampler::buffer();
+	s.interpolateMode = InterpolateMode::BILINEAR_NO_MIPMAP;
+
 	for (int i = 1; i <= vDownSampleIteration; ++i)
 	{
 		m_pDownSampleFramebuffer->set(Framebuffer::COLOR0, m_DownSampleChain[i]);
@@ -59,7 +62,7 @@ shared_ptr<Texture> CDualBlur::Blur(RenderDevice* vRenderDevice, shared_ptr<Text
 			args.setRect(Rect2D(Point2(0, 0), Point2(TargetSize.x, TargetSize.y)));
 			args.setUniform("DownSampleTargetSize", TargetSize);
 			args.setUniform("UVOffset", vUVOffset);
-			m_DownSampleChain[i - 1]->setShaderArgs(args, "InputTexture.", Sampler::buffer());
+			m_DownSampleChain[i - 1]->setShaderArgs(args, "InputTexture.", s);
 
 			LAUNCH_SHADER("shaders/DualBlurDownSample.pix", args);
 		} vRenderDevice->pop2D();
@@ -75,7 +78,7 @@ shared_ptr<Texture> CDualBlur::Blur(RenderDevice* vRenderDevice, shared_ptr<Text
 			args.setRect(Rect2D(Point2(0, 0), Point2(TargetSize.x, TargetSize.y)));
 			args.setUniform("UpSampleTargetSize", TargetSize);
 			args.setUniform("UVOffset", vUVOffset);
-			m_UpSampleChain[i + 1]->setShaderArgs(args, "InputTexture.", Sampler::buffer());
+			m_UpSampleChain[i + 1]->setShaderArgs(args, "InputTexture.", s);
 
 			LAUNCH_SHADER("shaders/DualBlurUpSample.pix", args);
 		} vRenderDevice->pop2D();
