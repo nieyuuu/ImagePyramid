@@ -1,0 +1,145 @@
+{ 
+    entities = { 
+        box = VisibleEntity { 
+            canChange = false; 
+            model = "boxModel"; 
+        }; 
+        
+        camera = Camera { 
+            canChange = false; 
+            depthOfFieldSettings = DepthOfFieldSettings { 
+                enabled = false; 
+                farBlurRadiusFraction = 0.005; 
+                farBlurryPlaneZ = -100; 
+                farSharpPlaneZ = -40; 
+                focusPlaneZ = -10; 
+                lensRadius = 0.01; 
+                model = "NONE"; 
+                nearBlurRadiusFraction = 0.015; 
+                nearBlurryPlaneZ = -0.25; 
+                nearSharpPlaneZ = -1; 
+                reducedResolutionFactor = 1; 
+            }; 
+            
+            filmSettings = FilmSettings { 
+                antialiasingEnabled = true; 
+                antialiasingFilterRadius = 0; 
+                antialiasingHighQuality = true; 
+                bloomRadiusFraction = 0.009; 
+                bloomStrength = 0.2; 
+                debugZoom = 1; 
+                effectsEnabled = true; 
+                gamma = 2.2; 
+                sensitivity = 1; 
+                temporalAntialiasingEnabled = false; 
+                toneCurve = Spline { 
+                    control = ( 0, 0.0787234, 0.306383, 0.75532, 0.92 ); 
+                    extrapolationMode = "LINEAR"; 
+                    finalInterval = -1; 
+                    interpolationMode = "CUBIC"; 
+                    time = ( 0, 0.169565, 0.339131, 0.752174, 1 ); 
+                }; 
+                
+                vignetteBottomStrength = 0.05; 
+                vignetteSizeFraction = 0.17; 
+                vignetteTopStrength = 0.5; 
+            }; 
+            
+            frame = CFrame::fromXYZYPRDegrees(0, 1, 6, 0, 0, 0 ); 
+            motionBlurSettings = MotionBlurSettings { 
+                enabled = false; 
+                exposureFraction = 0.75; 
+                maxBlurDiameterFraction = 0.1; 
+                numSamples = 27; 
+            }; 
+            
+            overridePixelOffset = true; 
+            projection = Projection { 
+                farPlaneZ = -200; 
+                fovDegrees = 25; 
+                fovDirection = "VERTICAL"; 
+                nearPlaneZ = -0.1; 
+                pixelOffset = Vector2(-0.328125, 0.141975 ); 
+            }; 
+            
+            visualizationScale = 1; 
+        }; 
+        
+        light = Light { 
+            attenuation = ( 0.0001, 0, 1 ); 
+            bulbPower = Power3(60 ); 
+            canChange = false; 
+            castsShadows = false; 
+            enabled = true; 
+            extent = Vector2(0.5, 0.5 ); 
+            frame = CFrame::fromXYZYPRDegrees(0, 1.978, 0, 0, -90, 0 ); 
+            nearPlaneZLimit = -0.5; 
+            producesDirectIllumination = true; 
+            producesIndirectIllumination = true; 
+            rectangular = true; 
+            shadowMapBias = 0.015; 
+            shadowMapSize = Vector2int16(8192, 8192 ); 
+            shadowsEnabled = true; 
+            spotHalfAngleDegrees = 85; 
+            spotHardness = 0;
+            areaLightPullback = 0.1;
+            type = "AREA"; 
+
+            varianceShadowSettings = VSMSettings { 
+                baseSize = Vector2int16(8192, 8192 ); 
+                blurMultiplier = 15; 
+                downsampleFactor = 4; 
+                enabled = false; 
+                filterRadius = 11; 
+            }; 
+        }; 
+        
+        skybox = Skybox { 
+            texture = 0.05; 
+        }; 
+        
+    }; 
+    
+    lightingEnvironment = LightingEnvironment { 
+        ambientOcclusionSettings = AmbientOcclusionSettings { 
+            bias = 0.02; 
+            blurRadius = 2; 
+            blurStepSize = 1; 
+            depthPeelSeparationHint = 0.1; 
+            edgeSharpness = 1; 
+            enabled = false; 
+            highQualityBlur = true; 
+            intensity = 0.52145; 
+            monotonicallyDecreasingBilateralWeights = false; 
+            numSamples = 40; 
+            packBlurKeys = false; 
+            radius = 0.5; 
+            temporalFilterSettings = TemporalFilter::Settings { 
+                falloffEndDistance = 0.07; 
+                falloffStartDistance = 0.05; 
+                hysteresis = 0.9; 
+            }; 
+            
+            temporallyVarySamples = true; 
+            useDepthPeelBuffer = true; 
+            useNormalBuffer = true; 
+            useNormalsInBlur = true; 
+            zStorage = "HALF"; 
+        }; 
+        
+        environmentMap = Texture::Specification { 
+            encoding = Texture::Encoding { 
+                readMultiplyFirst = 1; 
+            }; 
+            
+            filename = "cubemap/cornellbox/empty-RG-*.png"; 
+        }; 
+        
+    }; 
+    
+    models = { 
+        boxModel = "model/CornellBox/CornellBox.zip/CornellBox-Original.obj"; 
+    }; 
+    
+    name = "Simple Cornell Box (Area Light)"; 
+} 

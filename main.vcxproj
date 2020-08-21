@@ -103,6 +103,7 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="data-files\scenes\Simple_Cornell_Box_(Area_Light).Scene.Any" />
     <None Include="data-files\shaders\DualBlurDownSample.pix" />
     <None Include="data-files\shaders\DualBlurUpSample.pix" />
   </ItemGroup>

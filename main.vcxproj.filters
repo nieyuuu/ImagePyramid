@@ -50,5 +50,8 @@
     <None Include="data-files\shaders\DualBlurUpSample.pix">
       <Filter>Shader Files</Filter>
     </None>
+    <None Include="data-files\scenes\Simple_Cornell_Box_(Area_Light).Scene.Any">
+      <Filter>Scene Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

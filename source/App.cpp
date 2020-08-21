@@ -12,8 +12,8 @@ int main(int argc, const char* argv[])
 	settings.window.caption = "ImagePyramid";
 
 	settings.window.fullScreen = false;
-	settings.window.width = 800;
-	settings.window.height = 600;
+	settings.window.width = 1920;
+	settings.window.height = 1080;
 	settings.window.resizable = !settings.window.fullScreen;
 	settings.window.framed = !settings.window.fullScreen;
 	settings.window.defaultIconFilename = "icon.png";
