@@ -31,7 +31,7 @@
                 effectsEnabled = true; 
                 gamma = 2.2; 
                 sensitivity = 1; 
-                temporalAntialiasingEnabled = false; 
+                temporalAntialiasingEnabled = true; 
                 toneCurve = Spline { 
                     control = ( 0, 0.0787234, 0.306383, 0.75532, 0.92 ); 
                     extrapolationMode = "LINEAR"; 
@@ -107,7 +107,7 @@
             blurStepSize = 1; 
             depthPeelSeparationHint = 0.1; 
             edgeSharpness = 1; 
-            enabled = false; 
+            enabled = true; 
             highQualityBlur = true; 
             intensity = 0.52145; 
             monotonicallyDecreasingBilateralWeights = false; 

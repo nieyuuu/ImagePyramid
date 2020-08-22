@@ -91,21 +91,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="source\App.h" />
-    <ClInclude Include="source\BlurRenderer.h" />
-    <ClInclude Include="source\DualBlur.h" />
+    <ClInclude Include="source\DualFilter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\App.cpp" />
-    <ClCompile Include="source\BlurRenderer.cpp" />
-    <ClCompile Include="source\DualBlur.cpp" />
+    <ClCompile Include="source\DualFilter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data-files\scenes\Simple_Cornell_Box_(Area_Light).Scene.Any" />
-    <None Include="data-files\shaders\DualBlurDownSample.pix" />
-    <None Include="data-files\shaders\DualBlurUpSample.pix" />
+    <None Include="data-files\shaders\DualFilterDownSample.pix" />
+    <None Include="data-files\shaders\DualFilterUpSample.pix" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -4,10 +4,7 @@
     <ClCompile Include="source\App.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\BlurRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\DualBlur.cpp">
+    <ClCompile Include="source\DualFilter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -15,10 +12,7 @@
     <ClInclude Include="source\App.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\BlurRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\DualBlur.h">
+    <ClInclude Include="source\DualFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,14 +38,14 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="data-files\shaders\DualBlurDownSample.pix">
-      <Filter>Shader Files</Filter>
-    </None>
-    <None Include="data-files\shaders\DualBlurUpSample.pix">
-      <Filter>Shader Files</Filter>
-    </None>
     <None Include="data-files\scenes\Simple_Cornell_Box_(Area_Light).Scene.Any">
       <Filter>Scene Files</Filter>
+    </None>
+    <None Include="data-files\shaders\DualFilterDownSample.pix">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="data-files\shaders\DualFilterUpSample.pix">
+      <Filter>Shader Files</Filter>
     </None>
   </ItemGroup>
 </Project>

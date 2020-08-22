@@ -1,7 +1,7 @@
-#include "DualBlur.h"
+#include "DualFilter.h"
 #include <string>
 
-bool CDualBlur::__needRecreateTextureChain(int vInputTextureWidth, int vInputTextureHeight, int vDownSampleIteration) const
+bool CDualFilter::__needRecreateTextureChain(int vInputTextureWidth, int vInputTextureHeight, int vDownSampleIteration) const
 {
 	if (m_DownSampleChain.size() == 0 || m_UpSampleChain.size() != m_DownSampleChain.size() || m_DownSampleChain.size() != vDownSampleIteration + 1)
 		return true;
@@ -11,7 +11,7 @@ bool CDualBlur::__needRecreateTextureChain(int vInputTextureWidth, int vInputTex
 	return false;
 }
 
-void CDualBlur::__recreateTextureChain(int vInputTextureWidth, int vInputTextureHeight, const ImageFormat* vFormat, int vDownSampleIteration)
+void CDualFilter::__recreateTextureChain(int vInputTextureWidth, int vInputTextureHeight, const ImageFormat* vFormat, int vDownSampleIteration)
 {
 	m_DownSampleChain.resize(vDownSampleIteration + 1);
 	m_UpSampleChain.resize(vDownSampleIteration + 1);
@@ -23,14 +23,14 @@ void CDualBlur::__recreateTextureChain(int vInputTextureWidth, int vInputTexture
 		w = max(w / 2, 1);
 		h = max(h / 2, 1);
 
-		m_DownSampleChain[i] = Texture::createEmpty(("DualBlur::DownSampleChain" + std::to_string(i)).c_str(), w, h, vFormat);
+		m_DownSampleChain[i] = Texture::createEmpty(("DualFilter::DownSampleChain" + std::to_string(i)).c_str(), w, h, vFormat);
 	}
 
 	w = vInputTextureWidth;
 	h = vInputTextureHeight;
 	for (int i = 0; i < vDownSampleIteration; ++i)
 	{
-		std::string Name = i == 0 ? "DualBlur::BlurResult" : "DualBlur::UpSampleChain" + std::to_string(i);
+		std::string Name = i == 0 ? "DualFilter::FinalResult" : "DualFilter::UpSampleChain" + std::to_string(i);
 		m_UpSampleChain[i] = Texture::createEmpty((Name).c_str(), w, h, vFormat);
 		w = max(w / 2, 1);
 		h = max(h / 2, 1);
@@ -38,7 +38,7 @@ void CDualBlur::__recreateTextureChain(int vInputTextureWidth, int vInputTexture
 	m_UpSampleChain[vDownSampleIteration] = m_DownSampleChain[vDownSampleIteration];
 }
 
-shared_ptr<Texture> CDualBlur::Blur(RenderDevice* vRenderDevice, shared_ptr<Texture> vInputTexture, int vDownSampleIteration, float vUVOffset)
+shared_ptr<Texture> CDualFilter::Apply(RenderDevice* vRenderDevice, shared_ptr<Texture> vInputTexture, int vDownSampleIteration, float vUVOffset)
 {
 	_ASSERT(vInputTexture);
 
@@ -66,7 +66,7 @@ shared_ptr<Texture> CDualBlur::Blur(RenderDevice* vRenderDevice, shared_ptr<Text
 			args.setUniform("UVOffset", vUVOffset);
 			m_DownSampleChain[i - 1]->setShaderArgs(args, "InputTexture.", s);
 
-			LAUNCH_SHADER("shaders/DualBlurDownSample.pix", args);
+			LAUNCH_SHADER("shaders/DualFilterDownSample.pix", args);
 		} vRenderDevice->pop2D();
 	}
 
@@ -84,7 +84,7 @@ shared_ptr<Texture> CDualBlur::Blur(RenderDevice* vRenderDevice, shared_ptr<Text
 			args.setUniform("UVOffset", vUVOffset);
 			m_UpSampleChain[i + 1]->setShaderArgs(args, "InputTexture.", s);
 
-			LAUNCH_SHADER("shaders/DualBlurUpSample.pix", args);
+			LAUNCH_SHADER("shaders/DualFilterUpSample.pix", args);
 		} vRenderDevice->pop2D();
 	}
 

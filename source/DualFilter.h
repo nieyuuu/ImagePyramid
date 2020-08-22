@@ -2,7 +2,7 @@
 #include <G3D/G3D.h>
 #include <G3D-base/Array.h>
 
-class CDualBlur :public ReferenceCountedObject
+class CDualFilter :public ReferenceCountedObject
 {
 private:
 	shared_ptr<Framebuffer> m_pDownSampleFramebuffer;
@@ -15,17 +15,17 @@ private:
 	void __recreateTextureChain(int vInputTextureWidth, int vInputTextureHeight, const ImageFormat* vFormat, int vDownSampleIteration);
 
 public:
-	static shared_ptr<CDualBlur> create()
+	static shared_ptr<CDualFilter> create()
 	{
-		return createShared<CDualBlur>();
+		return createShared<CDualFilter>();
 	}
 
-	shared_ptr<Texture> Blur(RenderDevice* vRenderDevice, shared_ptr<Texture> vInputTexture, int vDownSampleIteration, float vUVOffset);
+	shared_ptr<Texture> Apply(RenderDevice* vRenderDevice, shared_ptr<Texture> vInputTexture, int vDownSampleIteration, float vUVOffset);
 
 protected:
-	CDualBlur()
+	CDualFilter()
 	{
-		m_pDownSampleFramebuffer = Framebuffer::create("DualBlur::DownSampleFramebuffer");
-		m_pUpSampleFramebuffer = Framebuffer::create("DualBlur::UpSampleFramebuffer");
+		m_pDownSampleFramebuffer = Framebuffer::create("DualFilter::DownSampleFramebuffer");
+		m_pUpSampleFramebuffer = Framebuffer::create("DualFilter::UpSampleFramebuffer");
 	}
 };
