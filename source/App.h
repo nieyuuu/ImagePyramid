@@ -2,11 +2,13 @@
 #include <G3D/G3D.h>
 
 class CDualFilter;
+class CImagePyramidFilter;
 
 class App : public GApp
 {
 private:
 	shared_ptr<CDualFilter> m_pDualFilter;
+	shared_ptr<CImagePyramidFilter> m_pImagePyramidFilter;
 
 	void __initFiltersIfNecessary();
 

@@ -1,5 +1,6 @@
 #include "App.h"
 #include "DualFilter.h"
+#include "ImagePyramidFilter.h"
 
 G3D_START_AT_MAIN();
 
@@ -36,6 +37,7 @@ int main(int argc, const char* argv[])
 void App::__initFiltersIfNecessary()
 {
 	if (!m_pDualFilter) m_pDualFilter = CDualFilter::create();
+	if (!m_pImagePyramidFilter) m_pImagePyramidFilter = CImagePyramidFilter::create();
 }
 
 App::App(const GApp::Settings& settings) : GApp(settings) {}
@@ -70,6 +72,7 @@ void App::onGraphics3D(RenderDevice* vRenderDevice, Array<shared_ptr<Surface>>& 
 	__initFiltersIfNecessary();
 
 	m_pDualFilter->Apply(vRenderDevice, m_framebuffer->texture(0), 3, 1.0f);
+	m_pImagePyramidFilter->Apply(vRenderDevice, m_framebuffer->texture(0), 10, 17.8);
 }
 
 void App::_makeGUI()

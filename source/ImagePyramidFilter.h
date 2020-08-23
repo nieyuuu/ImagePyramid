@@ -2,7 +2,7 @@
 #include <G3D/G3D.h>
 #include <G3D-base/Array.h>
 
-class CDualFilter :public ReferenceCountedObject
+class CImagePyramidFilter :public ReferenceCountedObject
 {
 private:
 	shared_ptr<Framebuffer> m_pDownSampleFramebuffer;
@@ -14,19 +14,20 @@ private:
 
 	bool __needRecreateTextureChain(int vInputTextureWidth, int vInputTextureHeight, int vDownSampleIteration) const;
 	void __recreateTextureChain(int vInputTextureWidth, int vInputTextureHeight, const ImageFormat* vFormat, int vDownSampleIteration);
+	float __MipGaussianBlendWeight(float vSigma, int vLevel);
 
 public:
-	static shared_ptr<CDualFilter> create()
+	static shared_ptr<CImagePyramidFilter> create()
 	{
-		return createShared<CDualFilter>();
+		return createShared<CImagePyramidFilter>();
 	}
 
-	shared_ptr<Texture> Apply(RenderDevice* vRenderDevice, shared_ptr<Texture> vInputTexture, int vDownSampleIteration, float vUVOffset);
+	shared_ptr<Texture> Apply(RenderDevice* vRenderDevice, shared_ptr<Texture> vInputTexture, int vDownSampleIteration, float vSigma);
 
 protected:
-	CDualFilter()
+	CImagePyramidFilter()
 	{
-		m_pDownSampleFramebuffer = Framebuffer::create("DualFilter::DownSampleFramebuffer");
-		m_pUpSampleFramebuffer = Framebuffer::create("DualFilter::UpSampleFramebuffer");
+		m_pDownSampleFramebuffer = Framebuffer::create("ImagePyramidFilter::DownSampleFramebuffer");
+		m_pUpSampleFramebuffer = Framebuffer::create("ImagePyramidFilter::UpSampleFramebuffer");
 	}
 };

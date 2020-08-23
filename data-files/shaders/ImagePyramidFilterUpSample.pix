@@ -1,0 +1,30 @@
+#include <Texture/Texture.glsl>
+
+uniform ivec2		UpSampleTargetSize;
+uniform sampler2D	CoarserTexture;
+uniform sampler2D	DownSampleTexture;
+uniform float Sigma;
+uniform int   Level;
+
+out vec3 OutColor;
+
+float MipGaussianBlendWeight()
+{
+	float Sigma2 = Sigma * Sigma;
+
+	float C = 2.0f * 3.14159f * Sigma2;
+	float Numerator = (1 << (Level << 2)) * log(4.0f);
+	float Denorminator = C * ((1 << (Level << 1)) + C);
+
+	return clamp(Numerator / Denorminator, 0.0f, 1.0f);
+}
+
+void main()
+{
+	vec2 UV = gl_FragCoord.xy * vec2(1.0f / UpSampleTargetSize.x, 1.0f / UpSampleTargetSize.y);
+
+	vec3 Coarser = texture(CoarserTexture, UV).rgb;
+	vec3 DownSample = texture(DownSampleTexture, UV).rgb;
+
+	OutColor = mix(Coarser, DownSample, MipGaussianBlendWeight());
+}

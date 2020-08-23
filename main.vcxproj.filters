@@ -7,12 +7,18 @@
     <ClCompile Include="source\DualFilter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\ImagePyramidFilter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\App.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\DualFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ImagePyramidFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -45,6 +51,12 @@
       <Filter>Shader Files</Filter>
     </None>
     <None Include="data-files\shaders\DualFilterUpSample.pix">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="data-files\shaders\ImagePyramidFilterDownSample.pix">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="data-files\shaders\ImagePyramidFilterUpSample.pix">
       <Filter>Shader Files</Filter>
     </None>
   </ItemGroup>
