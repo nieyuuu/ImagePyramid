@@ -73,12 +73,36 @@ void App::onGraphics3D(RenderDevice* vRenderDevice, Array<shared_ptr<Surface>>& 
 
 	__initFiltersIfNecessary();
 
-	m_pDualFilter->Apply(vRenderDevice, m_framebuffer->texture(0), 5, 1.0f, 1.0f);
-	m_pImagePyramidFilter->Apply(vRenderDevice, m_framebuffer->texture(0), 10, 0.0f, 17.8f);
-	m_pGaussianFilter->Apply(vRenderDevice, m_framebuffer->texture(0), 211);
+	m_pDualFilter->Apply(vRenderDevice, m_framebuffer->texture(0), m_DualFilterSettings.DownSampleIterations, m_DualFilterSettings.DownSampleUVOffset, m_DualFilterSettings.UpSampleUVOffset);
+	m_pImagePyramidFilter->Apply(vRenderDevice, m_framebuffer->texture(0), m_ImagePyramidFilterSettings.DownSampleIterations, m_ImagePyramidFilterSettings.DownSampleUVOffset, m_ImagePyramidFilterSettings.Sigma);
+	m_pGaussianFilter->Apply(vRenderDevice, m_framebuffer->texture(0), m_GaussianFilterSettings.FilterWidth);
+}
+
+bool App::onEvent(const GEvent& vEvent)
+{
+	if (vEvent.type == GEventType::KEY_DOWN && vEvent.key.keysym.sym == GKey::TAB)
+	{
+		m_pFilterConfigWindow->setVisible(!m_pFilterConfigWindow->visible());
+	}
+
+	return GApp::onEvent((vEvent));
 }
 
 void App::_makeGUI()
 {
+	developerWindow->setVisible(false);
+	developerWindow->cameraControlWindow->setVisible(false);
+	developerWindow->sceneEditorWindow->setVisible(false);
 
+	m_pFilterConfigWindow = GuiWindow::create("Settings", debugWindow->theme(), Rect2D::xywh(0.0f, 0.0f, 50.0f, 50.0f), GuiTheme::NORMAL_WINDOW_STYLE, GuiWindow::HIDE_ON_CLOSE);
+
+	m_pFilterConfigWindow->pane()->addPane("Current Mode", GuiTheme::PaneStyle::ORNATE_PANE_STYLE)->addEnumClassRadioButtons<EMode>("", &m_CurrentMode);
+
+	m_DualFilterSettings.makeGUI(m_pFilterConfigWindow->pane()->addPane("Dual Filter", GuiTheme::PaneStyle::ORNATE_PANE_STYLE));
+	m_ImagePyramidFilterSettings.makeGUI(m_pFilterConfigWindow->pane()->addPane("Image Pyramid Filter", GuiTheme::PaneStyle::ORNATE_PANE_STYLE));
+	m_GaussianFilterSettings.makeGUI(m_pFilterConfigWindow->pane()->addPane("Gaussian Filter", GuiTheme::PaneStyle::ORNATE_PANE_STYLE));
+
+	m_pFilterConfigWindow->pane()->pack();
+
+	addWidget(m_pFilterConfigWindow);
 }
