@@ -1,6 +1,7 @@
 #include <Texture/Texture.glsl>
 
 uniform ivec2 DownSampleTargetSize;
+uniform float UVOffset;
 uniform Texture2D InputTexture;
 
 out vec3 OutColor;
@@ -9,7 +10,7 @@ void main()
 {
 	vec2 UV0 = gl_FragCoord.xy * vec2(1.0f / DownSampleTargetSize.x, 1.0f / DownSampleTargetSize.y);
 
-	vec2 Offset = vec2(1.0f, 1.0f);
+	vec2 Offset = vec2(1.0f + UVOffset, 1.0f + UVOffset);
 	vec2 TexelSize = InputTexture.invSize.xy;
 
 	vec2 UV1 = UV0 + vec2(TexelSize.x, TexelSize.y) * Offset;

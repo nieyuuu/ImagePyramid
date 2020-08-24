@@ -73,8 +73,8 @@ void App::onGraphics3D(RenderDevice* vRenderDevice, Array<shared_ptr<Surface>>& 
 
 	__initFiltersIfNecessary();
 
-	m_pDualFilter->Apply(vRenderDevice, m_framebuffer->texture(0), 5, 1.0f);
-	m_pImagePyramidFilter->Apply(vRenderDevice, m_framebuffer->texture(0), 10, 17.8);
+	m_pDualFilter->Apply(vRenderDevice, m_framebuffer->texture(0), 5, 1.0f, 1.0f);
+	m_pImagePyramidFilter->Apply(vRenderDevice, m_framebuffer->texture(0), 10, 0.0f, 17.8f);
 	m_pGaussianFilter->Apply(vRenderDevice, m_framebuffer->texture(0), 211);
 }
 
