@@ -3,12 +3,14 @@
 
 class CDualFilter;
 class CImagePyramidFilter;
+class CGaussianFilter;
 
 class App : public GApp
 {
 private:
 	shared_ptr<CDualFilter> m_pDualFilter;
 	shared_ptr<CImagePyramidFilter> m_pImagePyramidFilter;
+	shared_ptr<CGaussianFilter> m_pGaussianFilter;
 
 	void __initFiltersIfNecessary();
 
