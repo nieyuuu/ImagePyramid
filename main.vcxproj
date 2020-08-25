@@ -94,12 +94,14 @@
     <ClInclude Include="source\DualFilter.h" />
     <ClInclude Include="source\GaussianFilter.h" />
     <ClInclude Include="source\ImagePyramidFilter.h" />
+    <ClInclude Include="source\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\App.cpp" />
     <ClCompile Include="source\DualFilter.cpp" />
     <ClCompile Include="source\GaussianFilter.cpp" />
     <ClCompile Include="source\ImagePyramidFilter.cpp" />
+    <ClCompile Include="source\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc" />
