@@ -73,9 +73,58 @@ void App::onGraphics3D(RenderDevice* vRenderDevice, Array<shared_ptr<Surface>>& 
 
 	__initFiltersIfNecessary();
 
-	m_pDualFilter->Apply(vRenderDevice, m_framebuffer->texture(0), m_DualFilterSettings.DownSampleIterations, m_DualFilterSettings.DownSampleUVOffset, m_DualFilterSettings.UpSampleUVOffset);
-	m_pImagePyramidFilter->Apply(vRenderDevice, m_framebuffer->texture(0), m_ImagePyramidFilterSettings.DownSampleIterations, m_ImagePyramidFilterSettings.DownSampleUVOffset, m_ImagePyramidFilterSettings.Sigma);
-	m_pGaussianFilter->Apply(vRenderDevice, m_framebuffer->texture(0), m_GaussianFilterSettings.FilterWidth);
+	shared_ptr<Texture> pDualFilterResult, pImagePyramidResult, pGaussianFilterResult;
+	switch (m_CurrentMode)
+	{
+	case EMode::None:
+		break;
+	case EMode::Dual_Filter:
+		{
+			pDualFilterResult = m_pDualFilter->Apply(vRenderDevice, m_framebuffer->texture(0), m_DualFilterSettings.DownSampleIterations, m_DualFilterSettings.DownSampleUVOffset, m_DualFilterSettings.UpSampleUVOffset);
+		}
+		break;
+	case EMode::Image_Pyramid_Filter:
+		{
+			pImagePyramidResult = m_pImagePyramidFilter->Apply(vRenderDevice, m_framebuffer->texture(0), m_ImagePyramidFilterSettings.DownSampleIterations, m_ImagePyramidFilterSettings.DownSampleUVOffset, m_ImagePyramidFilterSettings.Sigma);
+		}
+		break;
+	case EMode::Gaussian_Filter:
+		{
+			pGaussianFilterResult = m_pGaussianFilter->Apply(vRenderDevice, m_framebuffer->texture(0), m_GaussianFilterSettings.FilterWidth);
+		}
+		break;
+	case EMode::All:
+		{
+			pDualFilterResult = m_pDualFilter->Apply(vRenderDevice, m_framebuffer->texture(0), m_DualFilterSettings.DownSampleIterations, m_DualFilterSettings.DownSampleUVOffset, m_DualFilterSettings.UpSampleUVOffset);
+			pImagePyramidResult = m_pImagePyramidFilter->Apply(vRenderDevice, m_framebuffer->texture(0), m_ImagePyramidFilterSettings.DownSampleIterations, m_ImagePyramidFilterSettings.DownSampleUVOffset, m_ImagePyramidFilterSettings.Sigma);
+			pGaussianFilterResult = m_pGaussianFilter->Apply(vRenderDevice, m_framebuffer->texture(0), m_GaussianFilterSettings.FilterWidth);
+
+			if (!m_pMergeFramebuffer || m_pMergeFramebuffer->width() != m_framebuffer->width() || m_pMergeFramebuffer->height() != m_framebuffer->height())
+			{
+				m_pMergeFramebuffer = Framebuffer::create("App::MergeFramebuffer");
+				m_pMergeFramebuffer->set(Framebuffer::COLOR0, Texture::createEmpty("MergeResult", m_framebuffer->width(), m_framebuffer->height(), m_framebuffer->texture(0)->format()));
+			}
+
+			Point2int16 TargetSize = Point2int16(m_pMergeFramebuffer->width(), m_pMergeFramebuffer->height());
+			vRenderDevice->push2D(m_pMergeFramebuffer); {
+				vRenderDevice->setColorClearValue(Color4(0.0f, 0.0f, 0.0f, 0.0f));
+				vRenderDevice->clear(true, false, false);
+
+				Args args;
+				args.setRect(Rect2D(Point2(0, 0), Point2(TargetSize)));
+				args.setUniform("DualFilterResult", pDualFilterResult, Sampler::buffer());
+				args.setUniform("ImagePyramidFilterResult", pImagePyramidResult, Sampler::buffer());
+				args.setUniform("GaussianFilterResult", pGaussianFilterResult, Sampler::buffer());
+				args.setUniform("SceneColor", m_framebuffer->texture(0), Sampler::buffer());
+				args.setUniform("TargetSize", TargetSize);
+
+				LAUNCH_SHADER("shaders/Merge.pix", args);
+			} vRenderDevice->pop2D();
+		}
+		break;
+	default:
+		break;
+	}
 }
 
 bool App::onEvent(const GEvent& vEvent)

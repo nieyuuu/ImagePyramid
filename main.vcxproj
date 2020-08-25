@@ -110,6 +110,7 @@
     <None Include="data-files\shaders\DualFilterUpSample.pix" />
     <None Include="data-files\shaders\ImagePyramidFilterDownSample.pix" />
     <None Include="data-files\shaders\ImagePyramidFilterUpSample.pix" />
+    <None Include="data-files\shaders\Merge.pix" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

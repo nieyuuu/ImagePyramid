@@ -1,0 +1,67 @@
+uniform sampler2D DualFilterResult;
+uniform sampler2D ImagePyramidFilterResult;
+uniform sampler2D GaussianFilterResult;
+uniform sampler2D SceneColor;
+
+uniform ivec2 TargetSize;
+
+out vec3 OutColor;
+
+int FragCoord2TexCoord(vec2 FragCoord, out vec2 TexCoord)
+{
+	int Tex = 0;
+	ivec2 Coord = ivec2(FragCoord.x, FragCoord.y);
+
+	ivec2 HalfSize = TargetSize / 2;
+
+	if(Coord.x < HalfSize.x)
+	{
+		if(Coord.y < HalfSize.y)
+		{
+			Tex = 0;
+			TexCoord = vec2(FragCoord.x / HalfSize.x, FragCoord.y / HalfSize.y);
+		}
+		else
+		{
+			Tex = 2;
+			TexCoord = vec2(FragCoord.x / HalfSize.x, (FragCoord.y - HalfSize.y) / HalfSize.y);
+		}
+	}
+	else
+	{
+		if(Coord.y < HalfSize.y)
+		{
+			Tex = 1;
+			TexCoord = vec2((FragCoord.x - HalfSize.x) / HalfSize.x, FragCoord.y / HalfSize.y);
+		}
+		else
+		{
+			Tex = 3;
+			TexCoord = vec2((FragCoord.x - HalfSize.x) / HalfSize.x, (FragCoord.y - HalfSize.y) / HalfSize.y);
+		}
+	}
+
+	return Tex;
+}
+
+void main()
+{
+	int Tex = 0;
+	vec2 TexCoord = vec2(0.0f, 0.0f);
+
+	Tex = FragCoord2TexCoord(gl_FragCoord.xy, TexCoord);
+
+	switch(Tex)
+	{
+		case 0:
+			OutColor = texture(DualFilterResult, TexCoord).rgb; break;
+		case 1:
+			OutColor = texture(ImagePyramidFilterResult, TexCoord).rgb; break;
+		case 2:
+			OutColor = texture(GaussianFilterResult, TexCoord).rgb; break;
+		case 3:
+			OutColor = texture(SceneColor, TexCoord).rgb; break;
+		default:
+			OutColor = vec3(1.0f, 0.0f, 0.0f); break;
+	}
+}

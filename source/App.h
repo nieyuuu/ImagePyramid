@@ -43,7 +43,7 @@ struct SGaussianFilterSettings
 	}
 };
 
-G3D_BEGIN_ENUM_CLASS_DECLARATION(EMode, None, Dual_Filter, Image_Pyramid_Filter, Gaussian_Filter, Split_Screen);
+G3D_BEGIN_ENUM_CLASS_DECLARATION(EMode, None, Dual_Filter, Image_Pyramid_Filter, Gaussian_Filter, All);
 G3D_END_ENUM_CLASS_DECLARATION();
 
 class App : public GApp
@@ -60,6 +60,8 @@ private:
 	EMode m_CurrentMode = EMode::None;
 
 	shared_ptr<GuiWindow> m_pFilterConfigWindow;
+
+	shared_ptr<Framebuffer> m_pMergeFramebuffer;
 
 	void __initFiltersIfNecessary();
 
