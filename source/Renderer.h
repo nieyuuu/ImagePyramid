@@ -57,7 +57,7 @@ private:
 	SImagePyramidFilterSettings m_ImagePyramidFilterSettings;
 	SGaussianFilterSettings m_GaussianFilterSettings;
 
-	EMode m_CurrentMode = EMode::None;
+	EMode m_CurrentMode = EMode::All;
 
 public:
 	static shared_ptr<CRenderer> create()

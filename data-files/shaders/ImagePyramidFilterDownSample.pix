@@ -18,12 +18,12 @@ void main()
 	vec2 UV3 = UV0 + vec2(-TexelSize.x, TexelSize.y) * Offset;
 	vec2 UV4 = UV0 + vec2(-TexelSize.x, -TexelSize.y) * Offset;
 
-	vec3 C0 = texture(InputTexture.sampler, UV0).rgb * 2.0f;
+	//vec3 C0 = texture(InputTexture.sampler, UV0).rgb * 2.0f;
 	vec3 C1 = texture(InputTexture.sampler, UV1).rgb;
 	vec3 C2 = texture(InputTexture.sampler, UV2).rgb;
 	vec3 C3 = texture(InputTexture.sampler, UV3).rgb;
 	vec3 C4 = texture(InputTexture.sampler, UV4).rgb;
 
 	// 0.1666667f = 1.0f / 6.0f
-	OutColor = (C0 + C1 + C2 + C3 + C4) * 0.1666667f;
+	OutColor = (C1 + C2 + C3 + C4) * 0.25;
 }
