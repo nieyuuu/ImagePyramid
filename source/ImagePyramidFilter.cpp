@@ -22,9 +22,7 @@ void CImagePyramidFilter::__recreateTextureChain(int vInputTextureWidth, int vIn
 		w = max(w / 2, 1);
 		h = max(h / 2, 1);
 
-		std::string Name = i == vDownSampleIteration ? std::string("ImagePyramidFilter::DownSample::Result_") : std::string("ImagePyramidFilter::DownSample::Intermediate_");
-		Name += std::to_string(w) + std::string("*") + std::to_string(h);
-
+		std::string Name = std::string("ImagePyramidFilter::DownSample::") + std::to_string(w) + std::string("*") + std::to_string(h);
 		m_DownSampleChain[i] = Texture::createEmpty(Name.c_str(), w, h, vFormat);
 	}
 
@@ -32,9 +30,9 @@ void CImagePyramidFilter::__recreateTextureChain(int vInputTextureWidth, int vIn
 	h = vInputTextureHeight;
 	for (int i = 0; i < vDownSampleIteration; ++i)
 	{
-		std::string Name = i == 0 ? std::string("ImagePyramidFilter::UpSample::Result_") : std::string("ImagePyramidFilter::UpSample::Intermediate_");
-		Name += std::to_string(w) + std::string("*") + std::to_string(h);
+		std::string Name = std::string("ImagePyramidFilter::UpSample::") + std::to_string(w) + std::string("*") + std::to_string(h);
 		m_UpSampleChain[i] = Texture::createEmpty(Name.c_str(), w, h, vFormat);
+
 		w = max(w / 2, 1);
 		h = max(h / 2, 1);
 	}

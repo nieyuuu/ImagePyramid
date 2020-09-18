@@ -26,13 +26,8 @@ void CRenderer::render(RenderDevice* vRenderDevice, const shared_ptr<Camera>& vC
 		pImagePyramidResult = m_pImagePyramidFilter->Apply(vRenderDevice, vFramebuffer->texture(0), m_ImagePyramidFilterSettings.DownSampleIterations, m_ImagePyramidFilterSettings.DownSampleUVOffset, m_ImagePyramidFilterSettings.Sigma);
 		pGaussianFilterResult = m_pGaussianFilter->Apply(vRenderDevice, vFramebuffer->texture(0), m_GaussianFilterSettings.FilterWidth);
 
-		shared_ptr<Framebuffer> pMergeFramebuffer;
-
-		if (!pMergeFramebuffer || pMergeFramebuffer->width() != vFramebuffer->width() || pMergeFramebuffer->height() != vFramebuffer->height())
-		{
-			pMergeFramebuffer = Framebuffer::create("MergeFramebuffer");
-			pMergeFramebuffer->set(Framebuffer::COLOR0, Texture::createEmpty("MergeResult", vFramebuffer->width(), vFramebuffer->height(), vFramebuffer->texture(0)->format()));
-		}
+		shared_ptr<Framebuffer> pMergeFramebuffer = Framebuffer::create("MergeFramebuffer");
+		pMergeFramebuffer->set(Framebuffer::COLOR0, Texture::createEmpty("MergeResult", vFramebuffer->width(), vFramebuffer->height(), vFramebuffer->texture(0)->format()));
 
 		Point2int16 TargetSize = Point2int16(pMergeFramebuffer->width(), pMergeFramebuffer->height());
 

@@ -76,6 +76,11 @@ void CApp::onGraphics3D(RenderDevice* vRenderDevice, Array<shared_ptr<Surface>>&
 		//Disable Depth of Field
 		activeCamera()->depthOfFieldSettings().setEnabled(false);
 	}
+	if (activeCamera()->motionBlurSettings().enabled())
+	{
+		//Disable Motion Blur
+		activeCamera()->motionBlurSettings().setEnabled(false);
+	}
 
 	GApp::onGraphics3D(vRenderDevice, vAllSurfaces);
 }

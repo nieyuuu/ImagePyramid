@@ -22,8 +22,7 @@ void CDualFilter::__recreateTextureChain(int vInputTextureWidth, int vInputTextu
 		w = max(w / 2, 1);
 		h = max(h / 2, 1);
 
-		std::string Name = i == vDownSampleIteration ? std::string("DualFilter::DownSample::Result_") : std::string("DualFilter::DownSample::Intermediate_");
-		Name += std::to_string(w) + std::string("*") + std::to_string(h);
+		std::string Name = std::string("DualFilter::DownSample::") + std::to_string(w) + std::string("*") + std::to_string(h);
 		m_DownSampleChain[i] = Texture::createEmpty(Name.c_str(), w, h, vFormat);
 	}
 
@@ -31,8 +30,7 @@ void CDualFilter::__recreateTextureChain(int vInputTextureWidth, int vInputTextu
 	h = vInputTextureHeight;
 	for (int i = 0; i < vDownSampleIteration; ++i)
 	{
-		std::string Name = i == 0 ? std::string("DualFilter::UpSample::Result_") : std::string("DualFilter::UpSample::Intermediate_");
-		Name += std::to_string(w) + std::string("*") + std::to_string(h);
+		std::string Name = std::string("DualFilter::UpSample::") + std::to_string(w) + std::string("*") + std::to_string(h);
 		m_UpSampleChain[i] = Texture::createEmpty(Name.c_str(), w, h, vFormat);
 
 		w = max(w / 2, 1);
