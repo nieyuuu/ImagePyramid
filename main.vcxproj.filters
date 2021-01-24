@@ -24,10 +24,10 @@
     <ClInclude Include="source\DualFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\ImagePyramidFilter.h">
+    <ClInclude Include="source\GaussianFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\GaussianFilter.h">
+    <ClInclude Include="source\ImagePyramidFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\Renderer.h">
@@ -56,9 +56,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="data-files\scenes\Simple_Cornell_Box_(Area_Light).Scene.Any">
-      <Filter>Scene Files</Filter>
-    </None>
     <None Include="data-files\shaders\DualFilterDownSample.pix">
       <Filter>Shader Files</Filter>
     </None>
@@ -73,6 +70,9 @@
     </None>
     <None Include="data-files\shaders\Merge.pix">
       <Filter>Shader Files</Filter>
+    </None>
+    <None Include="data-files\scenes\Simple_Cornell_Box_(Area_Light).Scene.Any">
+      <Filter>Scene Files</Filter>
     </None>
   </ItemGroup>
 </Project>
